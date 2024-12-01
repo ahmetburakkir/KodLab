@@ -4,10 +4,10 @@
     <nav class="sidebar">
       <div class="button-group">
         <button class="button"><NuxtLink to="/">Header</NuxtLink></button>
-        <button class="button"><NuxtLink to="/slider">Kaydırıcı</NuxtLink></button>
-        <button class="button"><NuxtLink to="/ContentArea">İçerik Alanı</NuxtLink></button>
-        <button class="button"><NuxtLink to="/Form">Form</NuxtLink></button>
-        <button class="button"><NuxtLink to="/about">Hakkımızda</NuxtLink></button>
+        <button class="button"><NuxtLink to="/components/slider">Kaydırıcı</NuxtLink></button>
+        <button class="button"><NuxtLink to="/components/ContentArea">İçerik Alanı</NuxtLink></button>
+        <button class="button"><NuxtLink to="/components/Form">Form</NuxtLink></button>
+        <button class="button"><NuxtLink to="/components/about">Hakkımızda</NuxtLink></button>
       </div>
     </nav>
 
