@@ -14,5 +14,8 @@
     "swiper": "^11.1.15",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.2"
   }
 }
