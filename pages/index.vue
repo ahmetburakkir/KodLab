@@ -4,15 +4,15 @@
     <nav class="sidebar">
       <div class="button-group">
         <button class="button" @click="currentComponent = 'Header'">Header</button>
-        <button class="button" @click="currentComponent = 'Bar'">Bar</button>
-        <button class="button" @click="currentComponent = 'Form'">Üye Girişi</button>
-        <button class="button" @click="currentComponent = 'UyeOlustur'">Üye Ol!</button>
         <button class="button" @click="currentComponent = 'Slider'">Slide</button>
-        <button class="button" @click="currentComponent = 'Bar2'">Bar2</button>
+        <button class="button" @click="currentComponent = 'Bar2'">BarComponent</button>
         <button class="button" @click="currentComponent = 'ContentArea'">İçerik Alanı</button>
         <button class="button" @click="currentComponent = 'Icerik'">İçerik Alanı 2</button>
-        <button class="button" @click="currentComponent = 'ShoppingCart'">Sepet</button>
+        <button class="button" @click="currentComponent = 'Bar'">Videolar</button>
         <button class="button" @click="currentComponent = 'Footer'">Footer</button>
+        <button class="button" @click="currentComponent = 'ShoppingCart'">Sepet</button>
+        <button class="button" @click="currentComponent = 'Form'">Üye Girişi</button>
+        <button class="button" @click="currentComponent = 'UyeOlustur'">Üye Ol!</button>
       </div>
     </nav>
 

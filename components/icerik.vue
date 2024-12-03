@@ -1,192 +1,257 @@
 <template>
-    <div class="flex flex-col lg:flex-row lg:gap-4">
-      <!-- Sol Sidebar -->
-      <aside class="w-full lg:w-1/4 bg-gray-100 p-4 rounded-md">
-        <!-- Programlama Kategorileri -->
-        <div>
-          <h2 class="text-xl font-bold mb-4">Programlama</h2>
-          <ul class="space-y-2">
-            <li v-for="item in programmingCategories" :key="item" class="text-gray-700">
-              <label class="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  v-model="selectedProgramming"
-                  :value="item"
-                  class="form-checkbox text-blue-600"
-                />
-                <span>{{ item }}</span>
-              </label>
-            </li>
-          </ul>
-        </div>
-  
-        <!-- Diğer Kategoriler -->
-        <div class="mt-6">
-          <h2 class="text-xl font-bold mb-4">Kategoriler</h2>
-          <ul class="space-y-2">
-            <li
-              v-for="(count, item) in categories"
-              :key="item"
-              class="text-gray-700 flex justify-between items-center"
-            >
-              <label class="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  v-model="selectedCategories"
-                  :value="item"
-                  class="form-checkbox text-blue-600"
-                />
-                <span>{{ item }}</span>
-              </label>
-              <span class="text-gray-500">({{ count }})</span>
-            </li>
-          </ul>
-        </div>
-      </aside>
-  
-      <!-- Sağ İçerik -->
-      <main class="flex-1">
-        <h1 class="text-2xl font-bold mb-4">Programlama</h1>
-        <!-- Filtre ve Sıralama -->
-        <div class="flex justify-between items-center mb-4">
-          <div class="flex items-center space-x-4">
-            <button class="p-2 rounded-md bg-gray-200 hover:bg-gray-300">
-              <span class="material-icons">grid_view</span>
-            </button>
-            <button class="p-2 rounded-md bg-gray-200 hover:bg-gray-300">
-              <span class="material-icons">list</span>
-            </button>
-          </div>
-          <div>
-            <label for="sorting" class="sr-only">Sıralama</label>
-            <select id="sorting" class="p-2 rounded-md bg-gray-200">
-              <option>Sıralama</option>
-              <option>En Yeniler</option>
-              <option>Fiyat: Düşükten Yükseğe</option>
-              <option>Fiyat: Yüksekten Düşüğe</option>
-            </select>
-          </div>
-        </div>
-        <!-- Ürünler -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div
-            v-for="book in filteredBooks"
-            :key="book.id"
-            class="p-4 border rounded-md hover:shadow-lg flex flex-col items-center"
+  <div class="flex">
+    <!-- Sol Menü -->
+    <aside class="w-1/4 p-4 bg-gray-100">
+      <!-- Programlama Kategorisi -->
+      <h2 class="text-lg font-semibold mb-4">Programlama</h2>
+      <ul class="space-y-2">
+        <li v-for="category in programmingCategories" :key="category">
+          <NuxtLink
+            :to="'/category/' + category.toLowerCase()"
+            class="block text-gray-700 hover:text-blue-600"
           >
-            <img :src="book.image" :alt="book.title" class="w-full h-48 object-cover rounded-md mb-4" />
-            <h3 class="text-lg font-semibold text-center mb-2">{{ book.title }}</h3>
-            <p class="text-gray-500 text-center mb-4">{{ book.description }}</p>
-            <div class="text-blue-600 text-xl font-bold mb-2">{{ book.price }}</div>
-            <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+            {{ category }}
+          </NuxtLink>
+        </li>
+      </ul>
+
+      <!-- Kategoriler -->
+      <h2 class="text-lg font-semibold mt-6 mb-4">Kategoriler</h2>
+      <div
+        v-for="category in dynamicFilterCategories"
+        :key="category.name"
+        class="flex items-center mb-2"
+      >
+        <input
+          type="checkbox"
+          :id="category.name"
+          class="mr-2"
+          v-model="category.checked"
+          @change="filterProducts"
+        />
+        <label :for="category.name" class="text-gray-700">{{ category.name }} ({{ category.count }})</label>
+      </div>
+    </aside>
+
+    <!-- Sağ Kart Alanı -->
+    <section class="w-3/4 p-4">
+      <h2 class="text-xl font-bold mb-4">Programlama</h2>
+
+      <!-- Ürün Kartları -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div
+          v-for="product in paginatedProducts"
+          :key="product.name"
+          class="border border-gray-300 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
+        >
+          <!-- Görsel -->
+          <img
+            :src="product.image"
+            :alt="product.name"
+            class="w-full h-48 object-contain rounded-t"
+          />
+
+          <!-- İçerik -->
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-800 truncate">{{ product.name }}</h3>
+            <p class="text-xl font-bold text-blue-600 mt-2">₺{{ product.price }}</p>
+
+            <!-- Counter ve Sepete Ekle Butonu -->
+            <div class="mt-4 flex items-center space-x-2">
+              <!-- Azalt Butonu -->
+              <button
+                @click="decreaseQuantity(product)"
+                class="w-8 h-8 bg-gray-200 text-gray-700 font-bold rounded hover:bg-gray-300"
+              >
+                -
+              </button>
+
+              <!-- Miktar -->
+              <span class="text-lg font-semibold">{{ product.quantity }}</span>
+
+              <!-- Artır Butonu -->
+              <button
+                @click="increaseQuantity(product)"
+                class="w-8 h-8 bg-gray-200 text-gray-700 font-bold rounded hover:bg-gray-300"
+              >
+                +
+              </button>
+            </div>
+
+            <!-- Sepete Ekle Butonu -->
+            <button
+              @click="addToCart(product)"
+              class="mt-4 w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
+            >
               Sepete Ekle
             </button>
           </div>
         </div>
-        <!-- Sayfalama -->
-        <div class="flex justify-center mt-6">
-          <button
-            class="px-4 py-2 mx-1 rounded-md bg-gray-200 hover:bg-gray-300"
-            v-for="page in pagination"
-            :key="page"
-          >
-            {{ page }}
-          </button>
-        </div>
-      </main>
+      </div>
+
+      <!-- Sayfalama -->
+      <div class="mt-6 flex justify-center">
+        <button
+          v-for="page in totalPages"
+          :key="page"
+          @click="currentPage = page"
+          class="mx-2 px-4 py-2 border rounded text-gray-700 hover:bg-gray-200"
+          :class="currentPage === page ? 'bg-gray-300 font-bold' : ''"
+        >
+          {{ page }}
+        </button>
+      </div>
+    </section>
+
+    <!-- Toast Mesaj -->
+    <div v-if="showToast" class="fixed bottom-4 right-4 bg-green-500 text-white py-2 px-4 rounded shadow">
+      Sepete Eklendi!
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        programmingCategories: [
-          "ALGORİTMA",
-          "ASP.NET",
-          "C#",
-          "C/C++",
-          "JAVA",
-          "PYTHON",
-          "PHP",
-          "SAP",
-          "DİĞER",
-        ],
-        categories: {
-          ALGORİTMA: 21,
-          "ASP.NET": 16,
-          "C#": 32,
-          "C/C++": 14,
-          JAVA: 13,
-          PYTHON: 29,
-          PHP: 17,
-          SAP: 15,
-        },
-        selectedProgramming: [], // Seçilen programlama kategorileri
-        selectedCategories: [], // Seçilen genel kategoriler
-        books: [
-          {
-            id: 1,
-            title: "KOTLIN ile PRATİK UYGULAMALAR",
-            description: "Kodlab",
-            category: "PYTHON",
-            price: "₺250,00",
-            image: "/images/kotlin.jpg",
-          },
-          {
-            id: 2,
-            title: "YAPAY ZEKA UYGULAMALARI",
-            description: "MEB Müfredatına Tam Uyumlu",
-            category: "JAVA",
-            price: "₺250,00",
-            image: "/images/yapay-zeka.jpg",
-          },
-          {
-            id: 3,
-            title: "DİJİTAL SANATLAR",
-            description: "MEB Müfredatına Tam Uyumlu",
-            category: "ALGORİTMA",
-            price: "₺250,00",
-            image: "/images/dijital-sanatlar.jpg",
-          },
-          {
-            id: 4,
-            title: "ROBOTİK KODLAMA",
-            description: "MEB Müfredatına Tam Uyumlu",
-            category: "C++",
-            price: "₺250,00",
-            image: "/images/robotik-kodlama.jpg",
-          },
-          {
-            id: 5,
-            title: "PYTHON EĞİTİM KİTABI",
-            description: "Kodlab",
-            category: "PYTHON",
-            price: "₺250,00",
-            image: "/images/python.jpg",
-          },
-        ],
-        pagination: [1, 2, 3, 4],
-      };
-    },
-    computed: {
-      filteredBooks() {
-        // Kategori seçimine göre ürünleri filtrele
-        if (this.selectedProgramming.length === 0 && this.selectedCategories.length === 0) {
-          return this.books; // Hiçbir kategori seçilmezse tüm kitapları göster
-        }
-        return this.books.filter((book) =>
-          this.selectedProgramming.includes(book.category) ||
-          this.selectedCategories.includes(book.category)
-        );
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .material-icons {
-    font-size: 24px;
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch } from "vue";
+
+// Programlama kategorileri (sabit linkler)
+const programmingCategories = ref([
+  "ALGORİTMA",
+  "ASP.NET",
+  "C#",
+  "C/C++",
+  "JAVA",
+  "PYTHON",
+  "PHP",
+  "SAP",
+  "DİĞER",
+]);
+
+// Ürünler listesi
+const products = ref([
+  {
+    name: "KOTLIN ile PRATİK UYGULAMALAR",
+    price: 250,
+    category: "JAVA",
+    image: "/images/kotlin.jpg",
+    quantity: 1,
+  },
+  {
+    name: "YAPAY ZEKA UYGULAMALARI",
+    price: 250,
+    category: "ALGORİTMA",
+    image: "/images/yapay-zeka.jpg",
+    quantity: 1,
+  },
+  {
+    name: "DİJİTAL SANATLAR",
+    price: 250,
+    category: "DİĞER",
+    image: "/images/dijital-sanatlar.jpg",
+    quantity: 1,
+  },
+  {
+    name: "ROBOTİK KODLAMA",
+    price: 250,
+    category: "ALGORİTMA",
+    image: "/images/robotik-kodlama.jpg",
+    quantity: 1,
+  },
+  {
+    name: "PYTHON ile SIFIRDAN UYGULAMALAR",
+    price: 250,
+    category: "PYTHON",
+    image: "/images/python.jpg",
+    quantity: 1,
+  },
+]);
+
+// Dinamik kategoriler ve ürün sayıları
+const dynamicFilterCategories = computed(() => {
+  const counts = {};
+  products.value.forEach((product) => {
+    counts[product.category] = (counts[product.category] || 0) + 1;
+  });
+
+  return Object.keys(counts).map((category) => ({
+    name: category,
+    count: counts[category],
+    checked: false,
+  }));
+});
+
+// Filtrelenmiş ürünler
+const filteredProducts = ref([...products.value]);
+
+// Ürünleri filtreleme
+const filterProducts = () => {
+  const selectedCategories = dynamicFilterCategories.value
+    .filter((category) => category.checked)
+    .map((category) => category.name);
+
+  if (selectedCategories.length === 0) {
+    // Eğer hiçbir kategori seçilmediyse, tüm ürünleri göster
+    filteredProducts.value = [...products.value];
+  } else {
+    // Seçilen kategorilere göre ürünleri filtrele
+    filteredProducts.value = products.value.filter((product) =>
+      selectedCategories.includes(product.category)
+    );
   }
-  </style>
-  
+};
+
+// Sayfalama işlemleri
+const itemsPerPage = 6;
+const currentPage = ref(1);
+
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filteredProducts.value.slice(start, end);
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredProducts.value.length / itemsPerPage);
+});
+
+// Toast mesajı
+const showToast = ref(false);
+let toastTimeout;
+
+const addToCart = (product) => {
+  showToast.value = true;
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    showToast.value = false;
+  }, 2000);
+};
+
+// Counter işlemleri
+const increaseQuantity = (product) => {
+  product.quantity += 1;
+};
+
+const decreaseQuantity = (product) => {
+  if (product.quantity > 1) {
+    product.quantity -= 1;
+  }
+};
+</script>
+
+<style scoped>
+/* Programlama kategorisi link hover */
+a:hover {
+  text-decoration: underline;
+}
+
+/* Kart hover efekti */
+img {
+  transition: transform 0.3s ease-in-out;
+}
+img:hover {
+  transform: scale(1.05);
+}
+
+button:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+</style>

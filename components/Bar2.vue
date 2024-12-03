@@ -18,7 +18,7 @@
           <!-- Underline -->
           <div
             v-if="currentMenu === item.label"
-            class="absolute bottom-0 left-0 right-0 h-[3px] bg-blue-500 rounded-t-md"
+            class="absolute bottom-0 left-0 right-0 h-[3px] bg-red-500 rounded-t-md"
           ></div>
         </li>
       </ul>
