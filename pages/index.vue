@@ -1,70 +1,110 @@
 <template>
-  <header class="bg-white shadow p-6">
-    <div class="container mx-auto flex items-center justify-between">
-      <!-- Logo -->
-      <div class="flex items-center space-x-4">
-        <img src="/images/logo.jpg" alt="Logo" class="h-20 object-contain" />
-        <div class="text-sm">
-          <p class="font-bold text-red-500">KODLAB</p>
-          <p class="text-gray-600 text-xs">"Bilişim Yayıncılığının Yeni Yüzü"</p>
-        </div>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="button-group">
+        <button class="button" @click="currentComponent = 'Header'">Header</button>
+        <button class="button" @click="currentComponent = 'Bar'">Bar</button>
+        <button class="button" @click="currentComponent = 'Form'">Üye Girişi</button>
+        <button class="button" @click="currentComponent = 'UyeOlustur'">Üye Ol!</button>
+        <button class="button" @click="currentComponent = 'Slider'">Slide</button>
+        <button class="button" @click="currentComponent = 'Bar2'">Bar2</button>
+        <button class="button" @click="currentComponent = 'ContentArea'">İçerik Alanı</button>
+        <button class="button" @click="currentComponent = 'Icerik'">İçerik Alanı 2</button>
+        <button class="button" @click="currentComponent = 'ShoppingCart'">Sepet</button>
+        <button class="button" @click="currentComponent = 'Footer'">Footer</button>
       </div>
-
-      <!-- Search Bar -->
-      <div class="flex-1 mx-4 relative">
-        <input
-          type="text"
-          placeholder="Kitap Ara..."
-          class="w-full pl-10 p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
-        />
-        <!-- Heroicons Search Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 110 14 7 7 0 010-14zm0 0a7 7 0 017 7h0a7 7 0 01-7 7m7-7h1l3 3m-3-3l-3 3" />
-        </svg>
-      </div>
-
-      <!-- User and Cart Icons -->
-      <div class="flex items-center space-x-6">
-        <button class="text-gray-600 hover:text-black">
-          <!-- User Icon (Heroicons) -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12h3l-3-3m0 6h3l-3-3m-6 0H9l3 3m0-6H9l3 3" />
-          </svg>
-        </button>
-        <button class="text-gray-600 hover:text-black">
-          <!-- Shopping Cart Icon (Heroicons) -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Navigation Menu -->
-    <nav class="mt-6 bg-gray-100">
-      <ul class="container mx-auto flex space-x-6 p-3 text-sm">
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" /></svg> Anasayfa</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg> Kategoriler</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12l-6 6M3 12l6 6M12 3l6 6M12 21l6-6" /></svg> Videolar</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v16h16V4H4z" /></svg> Dosya Merkezi</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" /></svg> Yazarlarımız</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" /></svg> Ayın Kitapları</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" /></svg> İletişim</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" /></svg> Hakkımızda</a></li>
-        <li><a href="#" class="hover:text-blue-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M3 9h18M3 15h18M3 21h18" /></svg> Yazar Giriş</a></li>
-      </ul>
     </nav>
-  </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dinamik olarak bileşen yükleme -->
+      <component :is="currentComponent" />
+    </main>
+  </div>
 </template>
 
-<script setup>
-// Ekstra JavaScript gereksinimleri burada eklenebilir.
+<script>
+import Header from "@/components/header.vue";
+import Bar from "@/components/Bar.vue";
+import Form from "@/components/Form.vue";
+import UyeOlustur from "@/components/uyeolustur.vue";
+import Slider from "@/components/slider.vue";
+import Bar2 from "@/components/Bar2.vue";
+import ContentArea from "@/components/ContentArea.vue";
+import Icerik from "@/components/icerik.vue";
+import ShoppingCart from "@/components/sepet.vue";
+import Footer from "@/components/footer.vue";
+
+export default {
+  components: {
+    Header,
+    Bar,
+    Form,
+    UyeOlustur,
+    Slider,
+    Bar2,
+    ContentArea,
+    Icerik,
+    ShoppingCart,
+    Footer,
+  },
+  data() {
+    return {
+      currentComponent: null, // Başlangıçta hiçbir bileşen gösterilmiyor
+    };
+  },
+};
 </script>
 
 <style scoped>
-/* Logo'nun responsive boyutları */
-header img {
-  max-width: 100%; /* Resmin genişliğini %100'e ayarlayarak, ekranın genişliğine göre esnemesini sağlar. */
-  height: auto; /* Yüksekliği orantılı olarak ayarlar. */
+/* Ana kapsayıcı */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #f0f0f0;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #e42121;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #b31919;
+}
+
+/* Ana İçerik */
+.main-content {
+  margin-left: 200px;
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  overflow-y: auto;
 }
 </style>
