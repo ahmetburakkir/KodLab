@@ -35,6 +35,7 @@
 
 <script>
 export default {
+ //video die değişkenin içinde video nesneleri tanımladım
   data() {
     return {
       searchTerm: "",
@@ -70,6 +71,7 @@ export default {
       ],
     };
   },
+  //computed ozellği serchterm e girilen başlıkla eşleşen vidoları dondurur
   computed: {
     filteredVideos() {
       return this.videos.filter((video) =>

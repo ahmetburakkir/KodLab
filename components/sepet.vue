@@ -1,16 +1,16 @@
 <template>
   <div class="p-8">
-    <!-- Başlık -->
+   
     <h1 class="text-2xl font-bold mb-6">Alışveriş Sepeti</h1>
 
-    <!-- Uyarı Mesajı -->
+   
     <div class="bg-orange-100 text-orange-800 p-4 rounded mb-6">
       Sepetinizde başka kitap yok
     </div>
 
-    <!-- Ana İçerik -->
+   
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Alışverişe Devam Et -->
+     
       <div>
         <button
           class="flex items-center text-gray-700 border border-gray-300 rounded p-3 hover:bg-gray-100 transition"

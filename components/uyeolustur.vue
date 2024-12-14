@@ -1,11 +1,18 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen bg-white">
     <div class="w-full max-w-3xl bg-white p-8 shadow-md rounded-lg">
       <h2 class="text-2xl font-bold text-gray-800 mb-4">Hesap oluştur</h2>
-      <p class="text-sm text-gray-600 mb-6">
-        Zaten bir hesabınız mı var? 
+      
+        
+      
+      
+      <NuxtLink to="/components/login">
+        <p>Zaten Hesabınız Var Mı?</p>  
+        <p class="text-sm text-gray-600 mb-6">
         <a href="#" class="text-orange-500 hover:underline">Bunun yerine giriş yapın!</a>
       </p>
+      </NuxtLink>
+          
       <form>
         <!-- Sosyal Unvan -->
         <div class="mb-6">

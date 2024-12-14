@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="flex items-center justify-center min-h-screen bg-white">
       <div class="w-full max-w-md bg-white p-8 shadow-md rounded-lg">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Hesabınıza giriş yapın</h2>
         <!-- Başarı Mesajı -->

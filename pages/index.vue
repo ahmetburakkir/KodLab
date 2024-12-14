@@ -1,110 +1,127 @@
 <template>
   <div class="container">
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="button-group">
-        <button class="button" @click="currentComponent = 'Header'">Header</button>
-        <button class="button" @click="currentComponent = 'Slider'">Slide</button>
-        <button class="button" @click="currentComponent = 'Bar2'">BarComponent</button>
-        <button class="button" @click="currentComponent = 'ContentArea'">İçerik Alanı</button>
-        <button class="button" @click="currentComponent = 'Icerik'">İçerik Alanı 2</button>
-        <button class="button" @click="currentComponent = 'Bar'">Videolar</button>
-        <button class="button" @click="currentComponent = 'Footer'">Footer</button>
-        <button class="button" @click="currentComponent = 'ShoppingCart'">Sepet</button>
-        <button class="button" @click="currentComponent = 'Form'">Üye Girişi</button>
-        <button class="button" @click="currentComponent = 'UyeOlustur'">Üye Ol!</button>
-      </div>
-    </nav>
+    <!-- Header -->
+    <Header />
 
-    <!-- Main Content -->
+    <!-- Main Content (Flexbox Düzeni) -->
     <main class="main-content">
-      <!-- Dinamik olarak bileşen yükleme -->
-      <component :is="currentComponent" />
+      <!-- Slider (Üstteki bölüm) -->
+      <div class="slider-container">
+        <Slider />
+      </div>
+
+      <!-- Bar2 (Alt bölüm) -->
+      <div class="bar2-container">
+        <Bar2 />
+      </div>
     </main>
+
+    <!-- Footer -->
+    <Footer />
   </div>
 </template>
 
 <script>
-import Header from "@/components/header.vue";
-import Bar from "@/components/Bar.vue";
-import Form from "@/components/Form.vue";
-import UyeOlustur from "@/components/uyeolustur.vue";
 import Slider from "@/components/slider.vue";
+import Header from "@/components/header.vue";
 import Bar2 from "@/components/Bar2.vue";
-import ContentArea from "@/components/ContentArea.vue";
-import Icerik from "@/components/icerik.vue";
-import ShoppingCart from "@/components/sepet.vue";
 import Footer from "@/components/footer.vue";
 
 export default {
   components: {
-    Header,
-    Bar,
-    Form,
-    UyeOlustur,
     Slider,
+    Header,
     Bar2,
-    ContentArea,
-    Icerik,
-    ShoppingCart,
     Footer,
-  },
-  data() {
-    return {
-      currentComponent: null, // Başlangıçta hiçbir bileşen gösterilmiyor
-    };
   },
 };
 </script>
 
 <style scoped>
-/* Ana kapsayıcı */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center; /* Tüm içeriği yatayda ortalar */
+  align-items: center; /* Tüm içeriği dikeyde ortalar */
+  flex-direction: column; /* Dikine hizalama */
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box; /* İçerik taşmasını engeller */
+}
+
 .container {
   display: flex;
-  height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 200px;
-  background-color: #f0f0f0;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  overflow-y: auto;
-}
-
-.button-group {
-  display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  width: 100%; /* Genişlik ekran boyutuna uygun */
+  max-width: 1500px; /* İçeriği belli bir genişlikle sınırlandır */
+  margin: 0 auto; /* Ortalamayı sağlar */
+  padding: 0;
+  position: relative; /* Z-index için gerekli */
 }
 
-.button {
-  margin: 10px 0;
+/* Header */
+.header-wrapper {
+  position: relative; /* Dropdown'un konumunu ayarlamak için */
+  z-index: 10; /* Dropdown menüsünün üstte görünmesini sağlar */
+}
+
+.header-wrapper .dropdown-menu {
+  position: absolute; /* Dropdown menüsünü konumlandırır */
+  z-index: 20; /* Slider'ın üstünde görünmesini sağlar */
+  background-color: white; /* Arka plan rengi */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
   padding: 10px;
-  background-color: #e42121;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
-.button:hover {
-  background-color: #b31919;
-}
-
-/* Ana İçerik */
+/* Main Content */
 .main-content {
-  margin-left: 200px;
-  flex: 1;
+  flex: 1; /* Footer ve header dışında kalan boşluğu doldurur */
   padding: 20px;
-  background-color: #fff;
-  overflow-y: auto;
+  width: 100%; /* Tam genişlikte olmasını sağlar */
 }
+
+/* Slider */
+.slider-container {
+  position: relative; /* Z-index ayarı için gerekli */
+  z-index: 5; /* Header ve dropdown'dan daha düşük */
+}
+
+/* Bar2 */
+.bar2-container {
+  position: relative; /* Varsayılan ayar */
+  z-index: 5;
+}
+
+/* Footer */
+.footer-wrapper {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Product List */
+.product-list {
+  width: 100%;
+  max-width: 1200px; /* İçeriğin genişliği */
+  margin: 0 auto; /* Yatayda ortalamayı sağlar */
+  padding: 20px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Esnek grid sistemi */
+  gap: 20px; /* Kartlar arasında boşluk */
+}
+
+@media (min-width: 1200px) {
+  .product-list {
+    grid-template-columns: repeat(1, 1fr); /* Daha fazla sütun */
+  }
+}
+
 </style>
