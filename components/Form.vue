@@ -1,90 +1,77 @@
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-white">
-      <div class="w-full max-w-md bg-white p-8 shadow-md rounded-lg">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Hesabınıza giriş yapın</h2>
-        <!-- Başarı Mesajı -->
-        <div
-          v-if="showSuccessMessage"
-          class="mb-4 p-3 text-sm text-green-700 bg-green-100 border border-green-300 rounded"
+  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md bg-white p-8 shadow-md rounded-lg">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Giriş Yap</h2>
+      <form @submit.prevent="loginUser">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-posta</label>
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            placeholder="E-posta adresinizi girin"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Şifre</label>
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            placeholder="Şifrenizi girin"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full py-2 px-4 bg-blue-500 text-white rounded-lg"
         >
-          Giriş başarılı!
-        </div>
-  
-        <form @submit.prevent="handleLogin">
-          <!-- E-posta Girişi -->
-          <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-posta</label>
-            <input
-              type="email"
-              id="email"
-              v-model="email"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-            />
-          </div>
-          <!-- Şifre Girişi -->
-          <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Parola</label>
-            <div class="relative">
-              <input
-                type="password"
-                id="password"
-                v-model="password"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
-          </div>
-          <!-- Giriş Yap Butonu -->
-          <button
-            type="submit"
-            class="w-full py-2 px-4 text-white bg-orange-500 hover:bg-orange-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-          >
-            Oturum Aç
-          </button>
-        </form>
-  
-        <!-- Üye Ol Butonu -->
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            Hesap yok mu?
-            <NuxtLink
-              to="/components/uyeolustur"
-              class="text-orange-500 hover:underline"
-            >
-              Bir hesap oluşturun
-            </NuxtLink>
-          </p>
-        </div>
+          Giriş Yap
+        </button>
+      </form>
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">Hesabınız yok mu? 
+          <router-link to="/components/uyeolustur" class="text-blue-500 hover:underline">Kaydolun</router-link>
+        </p>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref } from "vue";
-  
-  // Form verileri
-  const email = ref("");
-  const password = ref("");
-  
-  // Başarı mesajı için durum
-  const showSuccessMessage = ref(false);
-  
-  const handleLogin = () => {
-    // Burada gerçek bir giriş doğrulama işlemi yapılabilir
-    if (email.value && password.value) {
-      // Giriş başarılı mesajını göster
-      showSuccessMessage.value = true;
-  
-      // Mesajı 3 saniye sonra gizle
-      setTimeout(() => {
-        showSuccessMessage.value = false;
-      }, 3000);
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firbase/firebaseConfig.js"; // Firebase Firestore bağlantısı
+
+const email = ref("");
+const password = ref("");
+const router = useRouter();
+
+const loginUser = async () => {
+  try {
+    const docRef = doc(db, "uyeler", "kullanicilar");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const users = docSnap.data().uyeler || [];
+      const user = users.find(
+        (u) => u.email === email.value && u.parola === password.value
+      );
+
+      if (user) {
+        alert("Giriş başarılı!");
+        router.push("/");
+      } else {
+        alert("Geçersiz e-posta veya şifre!");
+      }
     } else {
-      alert("Lütfen tüm alanları doldurun!");
+      alert("Kullanıcılar bulunamadı!");
     }
-  };
-  </script>
-  
-  <style scoped>
-  /* İsteğe bağlı özel stiller buraya eklenebilir */
-  </style>
-  
+  } catch (error) {
+    console.error("Giriş sırasında hata:", error);
+    alert("Bir hata oluştu!");
+  }
+};
+</script>

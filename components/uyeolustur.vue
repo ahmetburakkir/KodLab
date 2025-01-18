@@ -1,136 +1,164 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-white">
-    <div class="w-full max-w-3xl bg-white p-8 shadow-md rounded-lg">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Hesap oluştur</h2>
-      
-        
-      
-      
-      <NuxtLink to="/components/login">
-        <p>Zaten Hesabınız Var Mı?</p>  
-        <p class="text-sm text-gray-600 mb-6">
-        <a href="#" class="text-orange-500 hover:underline">Bunun yerine giriş yapın!</a>
-      </p>
-      </NuxtLink>
-          
-      <form>
-        <!-- Sosyal Unvan -->
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Sosyal unvan</label>
-          <div class="flex items-center space-x-4">
-            <label class="inline-flex items-center">
-              <input type="radio" name="title" value="male" class="text-orange-500" />
-              <span class="ml-2 text-sm text-gray-700">Erkek</span>
-            </label>
-            <label class="inline-flex items-center">
-              <input type="radio" name="title" value="female" class="text-orange-500" />
-              <span class="ml-2 text-sm text-gray-700">Kadın</span>
-            </label>
-            <label class="inline-flex items-center">
-              <input type="radio" name="title" value="dealer" class="text-orange-500" />
-              <span class="ml-2 text-sm text-gray-700">Bayi</span>
-            </label>
-          </div>
-        </div>
+  <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-xl p-8 bg-white shadow-md rounded-lg">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">Üye Oluştur</h1>
 
-        <!-- Ad -->
-        <div class="mb-4">
-          <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Ad</label>
+      <form @submit.prevent="onSubmit" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">İsim</label>
           <input
             type="text"
-            id="firstName"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            v-model="newUser.isim"
+            placeholder="İsim"
+            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
-          <p class="text-sm text-gray-500 mt-1">Yalnızca harflere ve nokta (.) karakterine izin verilir.</p>
         </div>
-
-        <!-- Soyad -->
-        <div class="mb-4">
-          <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Soyad</label>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Soyisim</label>
           <input
             type="text"
-            id="lastName"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-          />
-          <p class="text-sm text-gray-500 mt-1">Yalnızca harflere ve nokta (.) karakterine izin verilir.</p>
-        </div>
-
-        <!-- Şirket -->
-        <div class="mb-4">
-          <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Şirket</label>
-          <input
-            type="text"
-            id="company"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            v-model="newUser.soyisim"
+            placeholder="Soyisim"
+            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        <!-- Kimlik Numarası -->
-        <div class="mb-4">
-          <label for="identityNumber" class="block text-sm font-medium text-gray-700 mb-1">Kimlik numarası</label>
-          <input
-            type="text"
-            id="identityNumber"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-          />
-        </div>
-
-        <!-- E-posta -->
-        <div class="mb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-posta</label>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">E-Posta</label>
           <input
             type="email"
-            id="email"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            v-model="newUser.email"
+            placeholder="E-Posta"
+            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        <!-- Parola -->
-        <div class="mb-4">
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Parola</label>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Parola</label>
           <input
             type="password"
-            id="password"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            v-model="newUser.parola"
+            placeholder="Parola"
+            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        <!-- Checkboxlar -->
-        <div class="mb-4 space-y-2">
-          <label class="inline-flex items-start">
-            <input type="checkbox" class="text-orange-500 mt-1" />
-            <span class="ml-2 text-sm text-gray-700">Ortaklarımızdan teklifler alın</span>
-          </label>
-          <label class="inline-flex items-start">
-            <input type="checkbox" class="text-orange-500 mt-1" />
-            <span class="ml-2 text-sm text-gray-700">
-              Müşteri veri gizliliği hakkında bilgiye sahipsiniz.
-            </span>
-          </label>
-          <label class="inline-flex items-start">
-            <input type="checkbox" class="text-orange-500 mt-1" />
-            <span class="ml-2 text-sm text-gray-700">Haber bültenimize üye olun</span>
-          </label>
-        </div>
-
-        <!-- Kaydet Butonu -->
-        <div>
-          <button
-            type="submit"
-            class="w-full py-2 px-4 text-white bg-orange-500 hover:bg-orange-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-          >
-            Kaydet
-          </button>
-        </div>
+        <button
+          type="submit"
+          class="w-full py-2 px-4 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Kaydet
+        </button>
       </form>
+    </div>
+
+    <div class="w-full max-w-3xl mt-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Kullanıcılar</h2>
+      <ul class="space-y-4">
+        <li
+          v-for="user in users"
+          :key="user.id"
+          class="p-4 bg-white shadow-md rounded-lg flex justify-between items-center"
+        >
+          <div>
+            <p><strong>İsim:</strong> {{ user.isim }}</p>
+            <p><strong>Soyisim:</strong> {{ user.soyisim }}</p>
+            <p><strong>E-Posta:</strong> {{ user.email }}</p>
+          </div>
+          <button
+            @click="deleteUser(user.id)"
+            class="py-2 px-4 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Sil
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup>
-// İlgili script kodları buraya eklenebilir.
+import { ref, onMounted } from "vue";
+import { db } from "@/firbase/firebaseConfig.js"; // Firebase Firestore bağlantısı
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+
+const users = ref([]);
+const newUser = ref({
+  isim: "",
+  soyisim: "",
+  email: "",
+  parola: "",
+});
+
+// Kullanıcıları Firestore'dan çek
+const loadUsers = async () => {
+  try {
+    const docRef = doc(db, "uyeler", "kullanicilar"); // Tek bir doküman
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Mevcut kullanıcılar:", docSnap.data());
+      users.value = docSnap.data().uyeler || [];
+    } else {
+      // Eğer doküman yoksa, yeni bir doküman oluştur
+      console.log("Doküman bulunamadı, yeni bir doküman oluşturuluyor...");
+      await setDoc(docRef, { uyeler: [] });
+      users.value = [];
+    }
+  } catch (error) {
+    console.error("Kullanıcılar yüklenirken hata:", error);
+    alert("Kullanıcılar yüklenirken bir hata oluştu!");
+  }
+};
+
+// Yeni kullanıcı ekle
+const onSubmit = async () => {
+  if (
+    !newUser.value.isim ||
+    !newUser.value.soyisim ||
+    !newUser.value.email ||
+    !newUser.value.parola
+  ) {
+    alert("Tüm alanları doldurunuz!");
+    return;
+  }
+
+  try {
+    const docRef = doc(db, "uyeler", "kullanicilar"); // Tek bir doküman
+    const newUserData = { ...newUser.value };
+
+    // Kullanıcı e-posta kontrolü
+    const existingUser = users.value.find(user => user.email === newUserData.email);
+    if (existingUser) {
+      alert("Bu e-posta zaten kullanılıyor!");
+      return;
+    }
+
+    // Yeni kullanıcıyı Firestore dizisine ekle
+    await updateDoc(docRef, {
+      uyeler: arrayUnion(newUserData),
+    });
+
+    alert("Kullanıcı başarıyla eklendi!");
+    newUser.value = { isim: "", soyisim: "", email: "", parola: "" };
+    loadUsers(); // Listeyi güncelle
+  } catch (error) {
+    console.error("Kullanıcı eklenirken hata:", error);
+    alert("Kullanıcı eklenirken bir hata oluştu!");
+  }
+};
+
+// Sayfa yüklendiğinde verileri yükle
+onMounted(() => {
+  loadUsers();
+});
 </script>
 
+
+
+
+
 <style scoped>
-/* Özel stiller eklemek isterseniz buraya yazabilirsiniz */
+body {
+  background-color: #f3f4f6;
+}
 </style>
+
+

@@ -26,9 +26,12 @@
             <font-awesome-icon icon="fa-solid fa-user" class="h-6 w-6" />
           </button> 
         </NuxtLink>
+        
+        <NuxtLink to="/components/sepet">
         <button class="text-gray-600 hover:text-black">
           <font-awesome-icon icon="fa-solid fa-cart-shopping" class="h-6 w-6" />
         </button>
+      </NuxtLink>
       </div>
     </div>
 
