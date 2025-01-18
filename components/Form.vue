@@ -43,7 +43,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/firbase/firebaseConfig.js"; // Firebase Firestore bağlantısı
+import { db } from "@/firbase/firebaseConfig.ts"; // Firebase Firestore bağlantısı
 
 const email = ref("");
 const password = ref("");

@@ -64,7 +64,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { db } from "@/firbase/firebaseConfig.js"; // Firebase Firestore bağlantısı
+import { db } from "@/firbase/firebaseConfig.ts"; // Firebase Firestore bağlantısı
 import { collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
 
 const menuItems = [

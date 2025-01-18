@@ -76,7 +76,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { db } from "@/firbase/firebaseConfig.js"; // Firebase Firestore bağlantısı
+import { db } from "@/firbase/firebaseConfig.ts"; // Firebase Firestore bağlantısı
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
 const users = ref([]);
