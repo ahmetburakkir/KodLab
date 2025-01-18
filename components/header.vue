@@ -121,8 +121,10 @@
 
         <!-- Yazarlarımız -->
         <li class="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 px-4 py-2 rounded">
+          <NuxtLink to="/components/Yazarlar"> 
           <font-awesome-icon :icon="['fas', 'users']" class="text-lg" />
           <span class="text-sm font-semibold">YAZARLARIMIZ</span>
+        </NuxtLink>
         </li>
 
         <!-- Ayın Kitapları -->

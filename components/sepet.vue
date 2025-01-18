@@ -10,7 +10,7 @@
         <img :src="item.image" alt="Product Image" class="w-full h-auto object-contain rounded" />
         <h2 class="mt-4 text-lg font-semibold text-gray-700 truncate">{{ item.title }}</h2>
         <p class="text-sm font-medium text-gray-600">Yazar: {{ item.author }}</p>
-        <p class="text-sm font-medium text-gray-600">Ebat: {{ item.dimensions }}</p>
+        <p class="text-sm font-medium text-gray-600">Ebat: {{ item.size }}</p>
         <p class="text-sm font-medium text-gray-600">Sayfa Sayısı: {{ item.pageCount }}</p>
         <p class="text-sm font-medium text-gray-600">Ağırlık: {{ item.weight }}</p>
         <p class="text-xl font-bold text-blue-600 mt-2">₺{{ item.price }}</p>
@@ -50,7 +50,18 @@ const cartItems = ref([]);
 const loadCartItems = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "cart"));
-    cartItems.value = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    cartItems.value = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      title: doc.data().title || "Ürün Başlığı Yok",
+      author: doc.data().author || "Belirtilmemiş",
+      size: doc.data().size || "Bilinmiyor",
+      pageCount: doc.data().pageCount || "Bilinmiyor",
+      weight: doc.data().weight || "Bilinmiyor",
+      price: doc.data().price || 0,
+      image: doc.data().image || "https://via.placeholder.com/150",
+      quantity: doc.data().quantity || 1,
+    }));
   } catch (error) {
     console.error("Sepet ürünleri yüklenirken hata:", error);
   }
