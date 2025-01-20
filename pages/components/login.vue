@@ -20,9 +20,6 @@ import Header from "@/components/header.vue";
 import Forum from "@/components/Form.vue";
 
 
-//ahmet
-
-
 export default {
   components: {
     Header,
