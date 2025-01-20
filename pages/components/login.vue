@@ -19,7 +19,7 @@
 import Header from "@/components/header.vue";
 import Forum from "@/components/Form.vue";
 
-
+//logged
 export default {
   components: {
     Header,
